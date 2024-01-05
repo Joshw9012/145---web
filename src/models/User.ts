@@ -6,11 +6,8 @@ interface UserProps {
 }
 
 // type Callback = () => {}; // this type annotation expects a function return an object
-type Callback = () => void; // this type annotation expects a function return nothing
 
 export class User {
-  events: { [key: string]: Callback[] } = {};
-
   constructor(private data: UserProps) {}
 
   get(propName: string): number | string {
@@ -19,24 +16,6 @@ export class User {
 
   set(update: UserProps): void {
     Object.assign(this.data, update);
-  }
-
-  on(eventName: string, callback: Callback): void {
-    //this.events[eventName]; //this should return two possible outcome. : 1. Callback[x];  2. undefined
-    const handlers = this.events[eventName] || [];
-    handlers.push(callback);
-
-    this.events[eventName] = handlers; //add key value pairs to the events array
-  }
-
-  trigger(eventName: string): void {
-    const handlers = this.events[eventName];
-
-    if (!handlers || handlers.length === 0) {
-      return;
-    }
-
-    handlers.forEach((callback) => callback());
   }
 
   fetch(): void {
