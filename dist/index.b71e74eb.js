@@ -616,30 +616,19 @@ user.save();
 },{"./models/User":"4rcHn"}],"4rcHn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+// type Callback = () => {}; // this type annotation expects a function return an object
 parcelHelpers.export(exports, "User", ()=>User);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 class User {
     constructor(data){
         this.data = data;
-        this.events = {};
     }
     get(propName) {
         return this.data[propName];
     }
     set(update) {
         Object.assign(this.data, update);
-    }
-    on(eventName, callback) {
-        //this.events[eventName]; //this should return two possible outcome. : 1. Callback[x];  2. undefined
-        const handlers = this.events[eventName] || [];
-        handlers.push(callback);
-        this.events[eventName] = handlers; //add key value pairs to the events array
-    }
-    trigger(eventName) {
-        const handlers = this.events[eventName];
-        if (!handlers || handlers.length === 0) return;
-        handlers.forEach((callback)=>callback());
     }
     fetch() {
         (0, _axiosDefault.default).get(`http://localhost:3000/users/${this.get("id")}`).then((response)=>{
